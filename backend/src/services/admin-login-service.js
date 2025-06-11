@@ -1,9 +1,9 @@
-import { pool } from "../config/db.js";
+import db from "../config/db.js";
 
 export async function adminLogin(loginData) {
   const { username, password } = loginData;
 
-  const [rows] = await pool.execute(
+  const [rows] = await db.execute(
     `SELECT * FROM web_admin_login WHERE username = ? AND password = ?`,
     [username, password]
   );

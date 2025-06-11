@@ -1,4 +1,4 @@
-import { pool } from "../config/db.js";
+import db from "../config/db.js";
 import bcrypt from "bcrypt";
 
 export async function registerUser(registerData) {
@@ -6,7 +6,7 @@ export async function registerUser(registerData) {
 
     try {
         const existingUserQuery = "SELECT * FROM user_signup WHERE email = ?";
-        const [existingUserResult] = await pool.query(existingUserQuery, [email]);
+        const [existingUserResult] = await db.query(existingUserQuery, [email]);
 
         if (existingUserResult.length > 0) {
             throw new Error("User already exists with this email.");
@@ -19,7 +19,7 @@ export async function registerUser(registerData) {
             VALUES (?, ?, ?, ?, ?)
         `;
 
-        const [result] = await pool.query(insertQuery, [
+        const [result] = await db.query(insertQuery, [
             first_name,
             last_name,
             email,

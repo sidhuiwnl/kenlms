@@ -1,10 +1,10 @@
-import { pool } from "../config/db.js"
+import db from "../config/db.js";
 
 export async function getCurrentUser(req, res) {
   try {
     const userId = req.user.id;
 
-    const [rows] = await pool.query(
+    const [rows] = await db.query(
       'SELECT id, first_name, last_name, email, phone FROM user_signup WHERE id = ?',
       [userId]
     );

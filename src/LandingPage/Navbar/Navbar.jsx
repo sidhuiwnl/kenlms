@@ -54,7 +54,7 @@ export default function Navbar() {
     href={link.link}
     className="lnknav text-[14px] sm:text-[16px] font-normal duration-300 montserrat-main"
     {...(link.name === "My Spine Coach"
-      ? { target: "_blank", rel: "noopener noreferrer" }
+      ? {  rel: "noopener noreferrer" }
       : {})}
   >
     {link.name}

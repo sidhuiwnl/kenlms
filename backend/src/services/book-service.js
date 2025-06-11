@@ -1,4 +1,4 @@
-import { pool } from "../config/db.js";
+import db from "../config/db.js";
 
 export async function createBook(bookData) {
   const { 
@@ -16,7 +16,7 @@ export async function createBook(bookData) {
     about_author, 
   } = bookData;
 
-  const [result] = await pool.execute(
+  const [result] = await db.execute(
     `INSERT INTO book (title, author_detail, quantity, kindle, audible, hardcover, audio_cd, book_description, images, stars,editorial_review,about_author) 
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)`,
     [
@@ -39,7 +39,7 @@ export async function createBook(bookData) {
 }
 
 export async function getBooks(){
-    const [rows] = await pool.query(`SELECT * FROM book`);
+    const [rows] = await db.query(`SELECT * FROM book`);
     
 
     return rows;
@@ -60,7 +60,7 @@ export async function updateBook(bookId, bookData) {
     about_author
   } = bookData;
 
-  const [result] = await pool.execute(
+  const [result] = await db.execute(
     `UPDATE book SET 
       title = ?, 
       author_detail = ?, 
@@ -97,7 +97,7 @@ export async function updateBook(bookId, bookData) {
 
 
 export async function deleteBook(bookId) {
-    const conn = await pool.getConnection();
+    const conn = await db.getConnection();
     try {
         await conn.beginTransaction();
 
@@ -118,7 +118,7 @@ export async function deleteBook(bookId) {
 }
 
 export async function getBookById(bookId) {
-  const [rows] = await pool.execute(
+  const [rows] = await db.execute(
     `SELECT * FROM book WHERE id = ?`,
     [bookId]
   );

@@ -1,7 +1,7 @@
-import { pool } from "../config/db.js";
+import db from "../config/db.js"
 
 export async function createReview({name,content,stars,bookId,country}){
-    const [ result ]  = await pool.execute(
+    const [ result ]  = await db.execute(
         ` INSERT INTO reviews(name,content,stars,book_id,country) VALUES (?,?,?,?,?)`,
     [name,content,stars,bookId,country]
     )
@@ -10,7 +10,7 @@ export async function createReview({name,content,stars,bookId,country}){
 }
 
 export async function getReviews({ bookId }) {
-    const [ result ] = await pool.execute(
+    const [ result ] = await db.execute(
         `SELECT * FROM reviews where book_id= ?`,
         [bookId]
     )

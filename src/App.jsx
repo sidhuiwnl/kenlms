@@ -46,6 +46,20 @@ import Userprofile from "./Userprofile/Userprofile"
 import ForgotPassword from "./ForgotPassword/ForgotPassword"
 import  { ProtectedRoute,UserProtectedRoute } from "./ProtectedRoute"
 
+//lms
+import Drmenubar from "./Lms/Homepage/DrMenubar/DrMenubar"
+import Drkenhome from "./Lms/Homepage/DrHomepage/DrHomepage"
+import Login from "./Lms/Login/Login"
+
+import CourseVideos from "./Lms/Homepage/CourseVideos/CourseVideos"
+import Availablecourses from "./Lms/Homepage/AvailableCourses/AvailableCourses"
+import Grade from "./Lms/Homepage/Grade/Grade"
+import CertificateBadge from "./Lms/Homepage/CertficateBadge/CertficateBadge"
+import Feedbackpage from "./Lms/Homepage/Feedbackpage/Feedbackpage"
+import DashBoardProfile from "./Lms/Homepage/DashBoardProfile/DashBoardProfile"
+import { DashBoardMessage } from "./Lms/Homepage/DashBoardProfile/DashBoardProfile"
+import { DashBoardPayment } from "./Lms/Homepage/DashBoardProfile/DashBoardProfile"
+import DrMenuBarUser from "./Lms/Homepage/DrMenubarUser/Drmenubaruser"
 
 function App() {
   return (
@@ -64,6 +78,7 @@ function App() {
         <Route path="*" element={[<Navbar/>,<HeroSection/>,<Aboutpage/>,<Course/>,<Youtube/>,< LatestBook/>,<Author/>,<Lift/>,<BuyingBook />,<Expert/>,<Studies/>,<OurVideos/>,<SpeakerCard/>,<Footer/>]} />
         <Route path="/bookarea" element={<ViewBooks/>}/>
         {/* <Route path="http://18.232.97.230/lms" element={[<Navbar/>,<Mainbanner/>,<Footer/>]}/> */}
+        
         <Route path="/checkout" element={[<Navbar/>,<Checkoutpage/>,<Footer/>]}/>
         <Route path="/addblog" element={[<ProtectedRoute><Addblog/></ProtectedRoute>]}/>
         <Route path="/admin/login" element={[<Adminlogin/>]}/>
@@ -78,6 +93,36 @@ function App() {
         <Route path="/admin/review" element={[<ProtectedRoute><Reviews/></ProtectedRoute>]} />
         <Route path="/admin/blogview" element={[<ProtectedRoute>,<Adminblogview/>,</ProtectedRoute>]}/>
         <Route path="/profile" element={<UserProtectedRoute><Navbar/>,<Userprofile/>,<Footer/></UserProtectedRoute>}/>
+
+        {/* lmm routes */}
+
+        <Route path="/llmlogin" element={[<Login/>]} />
+        <Route path="/myspinecoach" element={[<Drmenubar/>,<Drkenhome/>]} />
+        <Route path="/user/:id"
+            element={[<DrMenuBarUser />, <Drkenhome />]}/>
+        <Route
+            path="/ken/:course/:module/:id"
+            element={[<DrMenuBarUser  />, <CourseVideos />]}
+        />
+        <Route
+            path="/allcourselist/:id"
+            element={[<DrMenuBarUser  />, <Availablecourses />]}
+        />
+        <Route path="/grade/:id" element={[<DrMenuBarUser  />,<Grade />]} />
+        <Route path="/badge/:id" element={[<DrMenuBarUser  />, <CertificateBadge />]}/>
+        <Route path="/feedback/:id" element={[<DrMenuBarUser  />,<Feedbackpage/>]}/>
+        <Route
+            path="/user/:id/profile"
+            element={[<DrMenuBarUser  />, <DashBoardProfile />]}
+        />
+        <Route
+            path="/user/:id/message"
+            element={[<DrMenuBarUser  />, <DashBoardMessage />]}
+          />
+          <Route
+            path="/user/:id/payment"
+            element={[<DrMenuBarUser  />, <DashBoardPayment />]}
+          />
       </Routes>
    </Router>
   )

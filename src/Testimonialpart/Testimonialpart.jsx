@@ -12,7 +12,7 @@ function Testimonialpart() {
       if (response.status !== 200) {
         console.error("Error getting testimonials");
       } else {
-        setTestimonial(response.data.testimonial);
+        setTestimonial(response.data.testimonial || {});
       }
     } catch (err) {
       console.error("Request failed:", err);

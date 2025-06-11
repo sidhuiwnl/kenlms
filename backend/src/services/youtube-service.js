@@ -1,7 +1,7 @@
-import { pool } from "../config/db.js";
+import db from "../config/db.js";
 
 export async function addYoutube({ title, yotubelLink, adminId }) {
-  const [result] = await pool.query(
+  const [result] = await db.query(
     `INSERT INTO youtube_video (title, yotubelLink, admin_id) VALUES (?, ?, ?)`,
     [title, yotubelLink, adminId]
   );
@@ -9,7 +9,7 @@ export async function addYoutube({ title, yotubelLink, adminId }) {
 }
 
 export async function getYoutubeVideos() {
-  const [rows] = await pool.query(
+  const [rows] = await db.query(
     `SELECT id, title, yotubelLink, created_at, updated_at 
      FROM youtube_video
      ORDER BY created_at DESC`,
@@ -18,7 +18,7 @@ export async function getYoutubeVideos() {
 }
 
 export async function deleteYoutubeVideo({ youtubeId, adminId }) {
-  const [result] = await pool.query(
+  const [result] = await db.query(
     `DELETE FROM youtube_video WHERE id = ? AND admin_id = ?`,
     [youtubeId, adminId]
   );

@@ -1,5 +1,5 @@
 import { createBook,deleteBook,getBookById,getBooks, updateBook } from "../services/book-service.js";
-import { pool } from "../config/db.js";
+import db from "../config/db.js";
 
 
 export async function handleCreateBook(req, res) {
@@ -55,7 +55,7 @@ export async function handleUpdateBook(req, res) {
   
   try {
    
-    const [rows] = await pool.execute(`SELECT images FROM book WHERE id = ?`, [bookId]);
+    const [rows] = await db.execute(`SELECT images FROM book WHERE id = ?`, [bookId]);
 
     if (rows.length === 0) {
       return res.status(404).json({ message: "Book not found" });

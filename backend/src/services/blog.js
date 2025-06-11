@@ -1,7 +1,7 @@
-import { pool } from "../config/db.js";
+import db from "../config/db.js";
 
 export const createBlog = async (adminId, title, content) => {
-  const [result] = await pool.execute(
+  const [result] = await db.execute(
     'INSERT INTO blog (admin_id, title, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())',
     [adminId, title, content]
   );
@@ -16,7 +16,7 @@ export const createBlog = async (adminId, title, content) => {
 
 
 export const getBlogs = async() => {
-  const [result] = await pool.execute(
+  const [result] = await db.execute(
     `SELECT * FROM blog`,
   )
   
@@ -24,7 +24,7 @@ export const getBlogs = async() => {
 }
 
 export const getBlog = async (blogId) => {
-  const [result] = await pool.execute(
+  const [result] = await db.execute(
     `SELECT * FROM blog WHERE id = ?`,
     [blogId]
   );
@@ -32,7 +32,7 @@ export const getBlog = async (blogId) => {
 };
 
 export const updateBlog = async (adminId, blogId, { title, content }) => {
-  const [result] = await pool.execute(
+  const [result] = await db.execute(
     `UPDATE blog 
      SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP 
      WHERE id = ? AND admin_id = ?`,
@@ -42,7 +42,7 @@ export const updateBlog = async (adminId, blogId, { title, content }) => {
 };
 
 export const deleteBlog = async({ blogId,adminId}) =>{
-  const [ result ] = await pool.execute(
+  const [ result ] = await db.execute(
     `DELETE FROM blog where id = ? AND admin_id = ?`,
     [blogId,adminId]
   )

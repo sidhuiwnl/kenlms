@@ -1,4 +1,5 @@
-import { pool } from "../config/db.js";
+import db from "../config/db.js";
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -6,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 export async function loginUser({ email, password }) {
     try {
         const userQuery = "SELECT * FROM user_signup WHERE email = ?";
-        const [result] = await pool.query(userQuery, [email]);
+        const [result] = await db.query(userQuery, [email]);
         if (result.length === 0) {
             throw new Error("User not found");
         }
