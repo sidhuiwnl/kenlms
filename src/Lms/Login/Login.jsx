@@ -98,7 +98,7 @@ function Login() {
   };
 
   const handleIndividualLogin = () => {
-    navigate("/register");
+    navigate("/llmregister");
   };
 
   const handleBusinessLogin = () => {

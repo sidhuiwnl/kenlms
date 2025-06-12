@@ -15,9 +15,10 @@ function Lessons() {
   const [modalContent, setModalContent] = useState(null); 
   const { id } = useParams();
   
-  const decodedId = atob(id)
+  
 
-  console.log(module[0])
+  const decodedId = id && id !== "undefined" ? atob(id) : "guest";
+  
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -44,16 +45,20 @@ function Lessons() {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_REACT_APP_API_URL}user/paymentstatus/${decodedId}`)
-      .then((res) => {
-        console.log(res.data);
-        setHasPaid(res.data.hasPaid); // Set the payment status
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
+    if (isAuthenticated && decodedId !== "guest") {
+      axios
+        .get(`${import.meta.env.VITE_REACT_APP_API_URL}user/paymentstatus/${decodedId}`)
+        .then((res) => {
+          setHasPaid(res.data.hasPaid);
+        })
+        .catch((err) => {
+          console.log(err);
+          setHasPaid(false); // Default to false if there's an error
+        });
+    } else {
+      setHasPaid(false); // Unauthenticated users or guest users haven't paid
+    }
+  }, [isAuthenticated, decodedId]);
 
   const handleShowModal = (module) => {
     setModalContent(module);
@@ -66,7 +71,7 @@ function Lessons() {
   };
 
   const handleLoginRedirect = () => {
-    navigate("/login");
+    navigate("/llmlogin");
     handleCloseModal();
   };
 
@@ -96,33 +101,7 @@ function Lessons() {
               </div>
             </Link>
           ) : (
-            // If the user hasn't paid, only the first module is clickable
-            <>
-              {e.moduleId === 1 ? (
-                <Link
-                  to={`/ken/1/${e.moduleId}/${id}`}
-                  className="col-sm-12 lessonview text-decoration-none"
-                  style={{ color: "#001040" }}>
-                  <div className="col-lg-4 d-flex flex-column justify-content-center">
-                    <img
-                      src={e.module_image}
-                      alt="lesson"
-                      className="rounded-3 lesson"
-                      accept=".jpg,.jpeg,.png,.tiff,.tif"
-                    />
-                  </div>
-                  <div className="col-lg-6 d-flex flex-column justify-content-center textpart">
-                    <h5>Chapter {e.moduleId}</h5>
-                    <h3>{e.modulename}</h3>
-                    <p>{e.activities}</p>
-                  </div>
-                  <div className="col-lg-2 d-flex justify-content-center align-items-center">
-                    <FontAwesomeIcon icon={faAngleRight} />
-                  </div>
-                </Link>
-              ) : (
-                // Other modules are locked
-                <div
+            <div
                   className="col-sm-12 lessonview locked"
                   onClick={() => handleShowModal(e)}
                   style={{ cursor: "pointer" }}
@@ -143,8 +122,7 @@ function Lessons() {
                     <FontAwesomeIcon icon={faLock} />
                   </div>
                 </div>
-              )}
-            </>
+            
           )}
         </div>
       ))}

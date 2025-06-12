@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import './Feedbackpage.css';
 import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
 function Feedbackpage() {
     const nav = useNavigate();
-
+    const { id } = useParams()
     const [rating, setRating] = useState(0); 
     const [hover, setHover] = useState(null); 
     const [feedback, setFeedback] = useState(''); 
     const [feedbacknew, setFeedbacknew] = useState(''); 
     const [feedbacksupport, setFeedbacksupport] = useState(''); 
-    const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  
+    const [showModal, setShowModal] = useState(false); 
+    
+    
+
     const handleSubmit = (e) => {
         e.preventDefault(); 
         console.log({
@@ -25,7 +28,7 @@ function Feedbackpage() {
     };
     const handleCloseModal = () => {
         setShowModal(false);
-        nav('/'); 
+        nav(`/user/${id}`); 
     };
 
     return (

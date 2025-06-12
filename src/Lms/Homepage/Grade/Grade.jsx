@@ -42,10 +42,10 @@ function Grade() {
           <tbody>
             {grade.map((module, index) => (
               <tr key={module.moduleid} className="texttable">
-                <td className="ps-5 text-white">
+                <td className="ps-5 ">
                   {module.moduleid}. {module.modulename}
                 </td>
-                <td className="text-center text-white">
+                <td className="text-center ">
                   {module.completion_percentage} %
                 </td>
               </tr>

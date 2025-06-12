@@ -14,15 +14,25 @@ import { faCog } from "@fortawesome/free-solid-svg-icons"; // You can replace wi
 import profile from "../../../../assets/profile1.png"
 
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
+  Legend
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
+// Register necessary components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function capitalize(name) {
   if (!name) return ""; // Ensure the name exists
@@ -76,29 +86,35 @@ export function Indiviualdashboardmain() {
       });
   }, [id]);
 
- useEffect(() => {
-  const weekDays = getWeekDays(selectedDate);
-  axios
-    .get(
-      `${import.meta.env.VITE_REACT_APP_API_URL}user/userworkhour/${decodedId}?weekStart=${weekDays[0].date}&weekEnd=${weekDays[6].date}`
-    )
-    .then((res) => {
-      const workData = res.data;
-      setChartData({
-        data: weekDays.map((day) => {
+  useEffect(() => {
+    const weekDays = getWeekDays(selectedDate);
+    axios
+      .get(
+        `${import.meta.env.VITE_REACT_APP_API_URL}user/userworkhour/${decodedId}?weekStart=${weekDays[0].date}&weekEnd=${weekDays[6].date}`
+      )
+      .then((res) => {
+        const workData = res.data;
+        const hoursData = weekDays.map((day) => {
           const dayData = workData.find((item) => item.date === day.date);
-          return {
-            name: day.day,
-            value: dayData ? dayData.hours : 0,
-          };
-        }),
+          return dayData ? dayData.hours : 0;
+        });
+        setChartData({
+          labels: weekDays.map((day) => `${day.day}`),
+          datasets: [
+            {
+              label: "Working Hours",
+              data: hoursData,
+              backgroundColor: "#001040", // Update to the desired color
+              borderWidth: 1,
+            },
+          ],
+        });
+        // console.log(weekDays);
+      })
+      .catch((err) => {
+        console.log("Error fetching work hours data", err);
       });
-    })
-    .catch((err) => {
-      console.log("Error fetching work hours data", err);
-    });
-}, [id, selectedDate]);
-
+  }, [id, selectedDate]);
 
   console.log(chartData);
 
@@ -166,16 +182,38 @@ export function Indiviualdashboardmain() {
                 />
               </div>
 
-             <ResponsiveContainer width="100%" height={300}>
-  <BarChart data={chartData.data}>
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey="name" stroke="#000" />
-    <YAxis stroke="#000" />
-    <Tooltip />
-    <Bar dataKey="value" fill="#001040" radius={[10, 10, 0, 0]}/>
-  </BarChart>
-</ResponsiveContainer>
-
+              <Bar
+                key={JSON.stringify(chartData)}
+                data={chartData}
+                options={{
+                  animation: { duration: 2000, delay: 30 },
+                  scales: {
+                    y: {
+                      type: "linear", // Ensure this is correct
+                      beginAtZero: true,
+                      title: { display: true, text: "Hours", color: "#000000" },
+                      grid: { display: false },
+                      ticks: { color: "black" },
+                    },
+                    x: {
+                      title: { display: true, text: "Days", color: "#000000" },
+                      grid: { display: false },
+                      ticks: { color: "black" },
+                    },
+                  },
+                  plugins: {
+                    legend: { labels: { color: "white" } },
+                    tooltip: {
+                      titleColor: "white",
+                      bodyColor: "white",
+                    },
+                    datalabels: {
+                      display: false, // Disable the labels inside the bars
+                    },
+                  },
+                }}
+              />
+              
             </div>
           </div>
 
@@ -219,6 +257,18 @@ export function Indiviualdashboardmain() {
               />
             </div>
           </div>
+
+          {/* <div className="col-sm-12 col-lg-12">
+            <div className="card shadow rounded-4 p-4 text-dark text-decoration-none">
+              <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                events={events}
+                eventClick={handleEventClick}/>
+            </div>
+          </div> */}
+
+
 
 <div className="col-sm-12 col-lg-12">
       <div className="card shadow rounded-4 p-4 text-dark text-decoration-none">
@@ -276,7 +326,7 @@ export function Indiviualdashboardmain() {
               </div>
               <div className="modal-body">
                 <h4>{selectedEvent.title}</h4>
-                <p> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V3q0-.425.288-.712T7 2t.713.288T8 3v1h8V3q0-.425.288-.712T17 2t.713.288T18 3v1h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5zm7-6q-.425 0-.712-.288T11 13t.288-.712T12 12t.713.288T13 13t-.288.713T12 14m-4 0q-.425 0-.712-.288T7 13t.288-.712T8 12t.713.288T9 13t-.288.713T8 14m8 0q-.425 0-.712-.288T15 13t.288-.712T16 12t.713.288T17 13t-.288.713T16 14m-4 4q-.425 0-.712-.288T11 17t.288-.712T12 16t.713.288T13 17t-.288.713T12 18m-4 0q-.425 0-.712-.288T7 17t.288-.712T8 16t.713.288T9 17t-.288.713T8 18m8 0q-.425 0-.712-.288T15 17t.288-.712T16 16t.713.288T17 17t-.288.713T16 18"/></svg><b>{selectedEvent.date}</b></p>
+                <p>{selectedEvent.date}</p>
               </div>
             </div>
           </div>
@@ -290,3 +340,4 @@ export function Indiviualdashboardmain() {
     </>
   );
 }
+

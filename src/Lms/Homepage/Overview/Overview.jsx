@@ -125,7 +125,7 @@ function Overview() {
         )}
 
         {selectedStory === "alejandrosStory" && (
-          <div className="col-12">
+          <div className="col-12 mt-10">
             <h5 className="unique-story-title my-3 text-center">Alejandro's Story</h5>
             <h5 className="unique-story-subtitle mb-5 text-center">
               HARNESSING SPINAL ENERGIES

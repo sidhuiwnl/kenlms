@@ -60,6 +60,11 @@ import DashBoardProfile from "./Lms/Homepage/DashBoardProfile/DashBoardProfile"
 import { DashBoardMessage } from "./Lms/Homepage/DashBoardProfile/DashBoardProfile"
 import { DashBoardPayment } from "./Lms/Homepage/DashBoardProfile/DashBoardProfile"
 import DrMenuBarUser from "./Lms/Homepage/DrMenubarUser/Drmenubaruser"
+import Registerpage from "./Lms/Registration/Registration"
+import ResetPassword from "./Lms/ResetPassword/ResetPassword"
+import InvitedRegister from "./Lms/InvitedRegister/InvitedRegister"
+import CompanyRegister from "./Lms/CompanyRegister/CompanyRegister"
+import LmsForgotPassword from "./Lms/ForgotPassword/ForgotPassword"
 
 function App() {
   return (
@@ -97,6 +102,7 @@ function App() {
         {/* lmm routes */}
 
         <Route path="/llmlogin" element={[<Login/>]} />
+        <Route path="/llmregister" element={<Registerpage />} />
         <Route path="/myspinecoach" element={[<Drmenubar/>,<Drkenhome/>]} />
         <Route path="/user/:id"
             element={[<DrMenuBarUser />, <Drkenhome />]}/>
@@ -123,6 +129,10 @@ function App() {
             path="/user/:id/payment"
             element={[<DrMenuBarUser  />, <DashBoardPayment />]}
           />
+          <Route path="/forgot_password" element={<LmsForgotPassword />} />
+          <Route path="/reset_password/:token" element={<ResetPassword />} />
+          <Route path="/inv_register/:id" element={<InvitedRegister />} />
+          <Route path="/business_register" element={<CompanyRegister />} /> 
       </Routes>
    </Router>
   )

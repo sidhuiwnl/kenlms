@@ -78,79 +78,80 @@ function Drkenhome() {
         </h5>
       </div>
       <div className="row storypart mx-1">
-        <div className="d-flex justify-content-center align-items-center lessontext">
-          <div className="col text-center">
+        <div className="d-flex justify-content-between align-items-center lessontext px-4 flex-wrap w-100">
+          <div className="text-center">
             <p className="iconpara fw-bold">
               <img
                 src={icon1}
                 className="mx-2"
-                alt="18 Lessons"
-                style={{ height: "24px" }}/>
+                alt="Lessons"
+                style={{ height: "24px" }}
+              />
               {count.moduleCount} Lessons
             </p>
           </div>
-          <div className="col text-center">
-            <p className="fw-bold pt-2 iconpara">
+          <div className="text-center">
+            <p className="iconpara fw-bold pt-2">
               <img
                 src={icon2}
                 className="mx-2"
-                alt="15 Hours"
-                style={{ height: "24px" }}/>15 Hours
+                alt="Hours"
+                style={{ height: "24px" }}
+              />
+              15 Hours
             </p>
           </div>
-          <div className="col text-center">
-            <p className="fw-bold pt-2 iconpara">
+          <div className="text-center">
+            <p className="iconpara fw-bold pt-2">
               <img
                 src={icon3}
                 className="mx-2"
-                alt="3,000 Enrolled"
-                style={{ height: "24px" }}/>
+                alt="Enrolled"
+                style={{ height: "24px" }}
+              />
               {count.enrolleCount} Enrolled
             </p>
           </div>
         </div>
 
-        <div className="row my-3">
-          <div className="col-sm-12 col-md-2 col-lg-3 mx-1 mx-md-4 my-2">
-            <Link
-              to="#"
-              style={{ fontWeight: "500", textDecoration: "none" }}
-              onClick={() => setActiveTab("overview")}
-              className={activeTab === "overview" ? "active-link" : ""}>
-              Overview
-            </Link>
-          </div>
+        <div className="row my-3 py-3 ">
+              <div className="d-flex justify-content-between text-center flex-wrap px-5 py-3">
+              <div className="col-auto">
+                <Link
+                  to="#"
+                  onClick={() => setActiveTab("overview")}
+                  className={activeTab === "overview" ? "active-link" : "font-bold "}
+                  style={{ textDecoration: "none", color : "#001040" }}
+                >
+                  Overview
+                </Link>
+              </div>
 
-          <div className="d-block d-md-none d-lg-block col-sm-12 col-md-2 col-lg-3 mx-1 mx-md-4 my-2">
-            <Link
-              to="#"
-              style={{ fontWeight: "500", textDecoration: "none" }}
-              onClick={() => setActiveTab("Instructor")}
-              className={activeTab === "Instructor" ? "active-link" : ""}>About Instructor
-            </Link>
-          </div>
-          {/* medium */}
-          <div className="d-none d-md-block d-lg-none col-sm-12 col-md-3 col-lg-3 mx-1 mx-md-5 my-2">
-            <Link
-              to="#"
-              style={{ fontWeight: "500", textDecoration: "none" }}
-              onClick={() => setActiveTab("Instructor")}
-              className={activeTab === "Instructor" ? "active-link" : ""}>
-             About&nbsp;Instructor
-            </Link>
-          </div>
-          <div className="col-sm-12 col-md-2  col-lg-3 mx-1 mx-md-4 my-2">
-            <Link
-              to="#"
-              style={{ fontWeight: "500", textDecoration: "none" }}
-              onClick={() => setActiveTab("lessons")}
-              className={activeTab === "lessons" ? "active-link" : ""}>
-              Lessons
-            </Link>
-          </div>
-        </div>
-        <hr />
-        <div className="content-area">{renderContent()}</div>
+              <div className="col-auto">
+                <Link
+                  to="#"
+                  onClick={() => setActiveTab("Instructor")}
+                  className={activeTab === "Instructor" ? "active-link" : "font-bold"}
+                  style={{ textDecoration: "none" , color : "#001040" }}
+                >
+                  About Instructor
+                </Link>
+              </div>
+
+              <div className="col-auto">
+                <Link
+                  to="#"
+                  onClick={() => setActiveTab("lessons")}
+                  className={activeTab === "lessons" ? "active-link" : "font-bold"}
+                  style={{ textDecoration: "none", color : "#001040" }}
+                >
+                  Lessons
+                </Link>
+              </div>
+            </div>
+            </div>
+            <hr />
+            <div className="content-area">{renderContent()}</div>
       </div>
     </div>
   );

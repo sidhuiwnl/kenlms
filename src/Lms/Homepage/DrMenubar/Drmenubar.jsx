@@ -11,7 +11,7 @@ function Drmenubar() {
   return (
     <Navbar expand="lg" className="navbarcontenttext py-4">
       <Container>
-        <Navbar.Brand as={NavLink} to="/">
+        <Navbar.Brand as={NavLink} to="/myspinecoach">
           <img src={Mainlogo} alt="Main Logo" className="logoken ms-lg-5" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />

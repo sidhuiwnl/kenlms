@@ -69,9 +69,11 @@ function CourseVideos() {
         `${import.meta.env.VITE_REACT_APP_API_URL}course/activity/${course}/${module}`
       )
       .then((res) => {
-        console.log(res.data);
+        console.log("the item",res.data);
 
-        const items = res.data.activities;
+        const items = res.data.activities.filter(
+            (item) => !item.quiz_type_name || (item.questions && item.questions.length > 0)
+      );
         setSidebarItems(items);
         setModuleName(res.data.modulename);
 
@@ -210,6 +212,8 @@ function CourseVideos() {
 
   const handleCheckboxChange = (questionId, option, event) => {
     const isChecked = event.target.checked;
+
+   
     setSelectedOptions((prevSelectedOptions) => {
       const currentSelections = prevSelectedOptions[questionId] || [];
       if (isChecked) {
@@ -302,6 +306,7 @@ function CourseVideos() {
         if (res.data.message === "Quiz attempt and log saved successfully") {
           setAttempts(res.data.attempts);
           setShowScoreCard(true);
+          setSelectedOptions({})
           // console.log(res.data);
         } else {
           toast.error("Error saving quiz");
@@ -314,7 +319,7 @@ function CourseVideos() {
   // console.log(attempts);
 
   const handleSubmitPostAssessment = () => {
-    const userId = decodedId === undefined || decodedId === "undefined" ? 0 : decodedId;
+   const userId = decodedId === undefined || decodedId === "undefined" ? 0 : decodedId;
     const result = []; // For multiple choice questions
     const match = []; // For match-the-following questions
     const desc = []; // For descriptive questions
@@ -587,6 +592,7 @@ function CourseVideos() {
                 </b>
               </p>
               {sidebarItems.map((item, index) => {
+                console.log(sidebarItems)
                 const title = item.quiz_type_name || "Content";
 
                 const formattedTitle =
@@ -596,8 +602,11 @@ function CourseVideos() {
                     title
                   );
 
+                  
+
                 return (
                   <div
+                
                     style={{
                       color: "#001040",
                       maxWidth: "200px",
